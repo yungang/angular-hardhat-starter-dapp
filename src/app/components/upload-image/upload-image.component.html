@@ -5,14 +5,14 @@
     <p>
       <mat-form-field appearance="legacy">
         <mat-label>Image Title</mat-label>
-        <input matInput formControlName="title">
+        <input matInput formControlName="title" title="image-title">
       </mat-form-field>
     </p>
 
     <div class="upload__item">
       <div class="upload__category">Image</div>
       <div class="upload__file">
-        <input class="upload__input" type="file" (change)="uploadImage($event.target)" />
+        <input class="upload__input" type="file" (change)="uploadImage($event.target)" title="file-input" />
         <div class="upload__format" *ngIf="!uploadedImage">
           PNG, GIF, WEBP. Max 1Gb.
         </div>
@@ -23,7 +23,7 @@
     <p>
       <mat-form-field appearance="legacy">
         <mat-label>Image Description</mat-label>
-        <textarea matInput formControlName="description"></textarea>
+        <textarea matInput formControlName="description" title="file-desc"></textarea>
       </mat-form-field>
     </p>
 

@@ -17,8 +17,9 @@ export class HomeComponent implements OnInit {
 
   public async ngOnInit(): Promise<void> {
     const images = await this.gallery.getAllImages()
+    console.log(images);
     this.images = await Promise.all(images.map(async (image) => {
-      const metaData: any = await this.http.get(image.imageMetaDataUrl).toPromise()
+      const metaData: any = this.http.get(image.imageMetaDataUrl)
       return {
         title: image.title,
         image: metaData.fileUrl,

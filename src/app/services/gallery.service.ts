@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ethers } from "ethers";
 import { environment } from "../../environments/environment";
-import Gallery from '../../../artifacts/contracts/Gallery.sol/Gallery.json'
-import detectEthereumProvider from "@metamask/detect-provider";
+import detectEthereumProvider from '@metamask/detect-provider';
+import Gallery from '../../../artifacts/contracts/Gallery.sol/Gallery.json';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,6 @@ import detectEthereumProvider from "@metamask/detect-provider";
 export class GalleryService {
   public async getAllImages(): Promise<any[]> {
     const contract = await GalleryService.getContract()
-
     return await contract['retrieveAllImages']()
   }
 
@@ -43,12 +42,16 @@ export class GalleryService {
   }
 
   private static async getWebProvider(requestAccounts = true) {
-    const provider: any = await detectEthereumProvider()
-
+    const provider: any = await detectEthereumProvider();
+    if (provider) {
+        console.log('Ethereum successfully detected!');
+      } else {
+        console.error('Please install MetaMask!');
+      }
     if (requestAccounts) {
-      await provider.request({ method: 'eth_requestAccounts' })
+      await provider.request({ method: 'eth_requestAccounts' });
     }
 
-    return new ethers.providers.Web3Provider(provider)
+    return new ethers.providers.Web3Provider(provider);
   }
 }

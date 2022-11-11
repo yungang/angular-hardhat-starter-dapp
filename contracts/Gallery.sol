@@ -2,26 +2,29 @@
 pragma solidity >=0.7.0 <0.9.0;
 
 contract Gallery {
-  Image[] private images;
-  mapping(address => Image[]) private authorToImages;
 
-  struct Image {
-    string title;
-    string imageMetaDataUrl;
-  }
+    Image[] private images;
+    mapping(address => Image[]) private authorToImages;
 
-  function store(string memory title, string memory imageMetaDataUrl) public {
-    Image memory image = Image(title, imageMetaDataUrl);
+    struct Image {
+        string title;
+        string imageMetaDataUrl;
+    }
 
-    images.push(image);
-    authorToImages[msg.sender].push(image);
-  }
+    constructor() {}
 
-  function retrieveAllImages() public view returns (Image[] memory) {
-    return images;
-  }
+    function store(string memory title, string memory imageMetaDataUrl) public {
+        Image memory image = Image(title, imageMetaDataUrl);
 
-  function retrieveImagesByAuthor() public view returns (Image[] memory) {
-    return authorToImages[msg.sender];
-  }
+        images.push(image);
+        authorToImages[msg.sender].push(image);
+    }
+
+    function retrieveAllImages() public view returns (Image[] memory) {
+        return images;
+    }
+
+    function retrieveImagesByAuthor() public view returns (Image[] memory) {
+        return authorToImages[msg.sender];
+    }
 }
