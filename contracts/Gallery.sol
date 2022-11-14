@@ -9,12 +9,13 @@ contract Gallery {
     struct Image {
         string title;
         string imageMetaDataUrl;
+        string fileDesc;
     }
 
     constructor() {}
 
-    function store(string memory title, string memory imageMetaDataUrl) public {
-        Image memory image = Image(title, imageMetaDataUrl);
+    function store(string memory title, string memory imageMetaDataUrl, string memory desc) public {
+        Image memory image = Image(title, imageMetaDataUrl, desc);
 
         images.push(image);
         authorToImages[msg.sender].push(image);

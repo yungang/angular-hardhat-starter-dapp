@@ -1,28 +1,27 @@
 import { Injectable } from "@angular/core"
-import { create, globSource } from 'ipfs-http-client'
+import { create } from 'ipfs-http-client'
 import { environment } from "../../environments/environment"
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class IpfsService {
-  public async uploadFile(data: any): Promise<string> {
-    let url = ''
-    const client = IpfsService.getClient()
-    try {
-      const added = await client.add(data)
-      console.log(`added: ${JSON.stringify(added)}`);
+    public async uploadFile(data: any): Promise<string> {
+        let url = ''
+        const client = IpfsService.getClient()
+        try {
+            const added = await client.add(data)
 
-      url = `${environment.ipfs}/ipfs/${added.path}`
-    } catch (error) {
-      console.log(error)
+            url = `${environment.ipfsGetUrl}/ipfs/${added.path}`
+        } catch (error) {
+            console.log(error)
+        }
+        
+        return url
     }
 
-    return url
-  }
-
-  private static getClient(): any {
-    // @ts-ignore
-    return create({url: "http://127.0.0.1:5001"})
-  }
+    private static getClient(): any {
+        // @ts-ignore
+        return create({ url: environment.ipfsUploadUrl })
+    }
 }
