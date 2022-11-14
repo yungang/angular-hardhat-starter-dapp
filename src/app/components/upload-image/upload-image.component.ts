@@ -1,7 +1,7 @@
 import { Component } from '@angular/core'
 import { DomSanitizer } from '@angular/platform-browser';
 import { IpfsService } from "../../services/ipfs.service"
-import { FormBuilder, Validators } from "@angular/forms"
+import { FormGroup, FormControl, Validators } from "@angular/forms"
 import { Router } from "@angular/router"
 import { GalleryService } from "../../services/gallery.service";
 
@@ -18,20 +18,18 @@ export class UploadImageComponent {
     public fileTitle: string = ''
     public fileDesc: string = ''
 
+    public uploadFrom = new FormGroup({
+        fileTitle: new FormControl('', Validators.required),
+        fileDesc: new FormControl('', Validators.required),
+        uploadFile: new FormControl('', Validators.required)
+    })
+
     constructor(
         private ipfs: IpfsService,
         private domSanitizer: DomSanitizer,
         private router: Router,
         private gallery: GalleryService
     ) { }
-
-    public updateFileTitle(title: string): void {
-        this.fileTitle = title;
-    }
-
-    public updateFileDesc(desc: string): void {
-        this.fileDesc = desc;
-    }
 
     public async uploadImage(eventTarget: any) {
         this.uploadFile = eventTarget.files[0]
@@ -43,7 +41,7 @@ export class UploadImageComponent {
         if (this.uploadFile) {
             this.isLoading = true
             const metaDataUrl = await this.ipfs.uploadFile(this.uploadFile)
-            const isItemCreated = await this.gallery.addImage(this.fileTitle, metaDataUrl, this.fileDesc)
+            const isItemCreated = await this.gallery.addImage(this.uploadFrom.value.fileTitle, metaDataUrl, this.uploadFrom.value.fileDesc)
 
             this.isLoading = false
             if (isItemCreated) {
